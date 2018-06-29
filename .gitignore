@@ -1,0 +1,10 @@
+# OSX
+.DS_Store
+
+# npm
+npm-debug.log
+
+# Chunks
+dist/prod/
+dist/sandbox/
+dist/build/
