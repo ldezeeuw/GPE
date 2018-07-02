@@ -20,8 +20,8 @@
         "description": "Garde de 2 enfants pour l'après midi, il faudras leur faire a manger, lorem ipsum dolor sit amet c du long texte tout ça",
         "remuneration": 11,
         "time": {
-            "start": "2018-06-29T09:24:20+00:00",
-            "end": "2018-06-29T09:24:31+00:00"
+            "start": "02/07/2018 16:51:18",
+            "end": "02/07/2018 18:51:18"
         },
         "childrens": [{
             "name": "José",
@@ -51,10 +51,10 @@
         "pictures": ["https://source.unsplash.com/random", "https://source.unsplash.com/random", "https://source.unsplash.com/random"],
         "title": "Garder des enfant pour une nuitée",
         "description": "Garder 2 enfants pasque je suis pas la et qu'autrement ils vonts faire des bétises et potentiellement crever",
-        "remuneration": 10,
+        "remuneration": 7,
         "time": {
-            "start": "2018-06-29T09:23:38+00:00",
-            "end": "2018-06-29T09:24:06+00:00"
+            "start": "02/07/2018 15:00:00",
+            "end": "02/07/2018 18:00:00"
         },
         "childrens": [{
             "name": "Carlitos",
@@ -79,11 +79,11 @@
         },
         "pictures": ["https://source.unsplash.com/random", "https://source.unsplash.com/random", "https://source.unsplash.com/random"],
         "title": "Garder des enfant pour une nuitée",
-        "description": "Garder 2 enfants pasque je suis pas la et qu'autrement ils vonts faire des bétises et potentiellement crever",
-        "remuneration": 10,
+        "description": "En déplacement pour 2 jour j'ai vesoin de lorem ipsum dolor sit amet",
+        "remuneration": 15,
         "time": {
-            "start": "2018-06-29T09:23:38+00:00",
-            "end": "2018-06-29T09:24:06+00:00"
+            "start": "02/07/2018 10:00:00",
+            "end": "02/07/2018 12:00:30"
         },
         "childrens": [{
             "name": "Carlitos",
@@ -108,11 +108,11 @@
         },
         "pictures": ["https://source.unsplash.com/random", "https://source.unsplash.com/random", "https://source.unsplash.com/random"],
         "title": "Garder des enfant pour une nuitée",
-        "description": "Garder 2 enfants pasque je suis pas la et qu'autrement ils vonts faire des bétises et potentiellement crever",
+        "description": "Lorem ipsum dolor sit amet glam et sad ipsum amet dolor",
         "remuneration": 10,
         "time": {
-            "start": "2018-06-29T09:23:38+00:00",
-            "end": "2018-06-29T09:24:06+00:00"
+            "start": "02/07/2018 09:00:00",
+            "end": "03/07/2018 00:00:00"
         },
         "childrens": [{
             "name": "Carlitos",

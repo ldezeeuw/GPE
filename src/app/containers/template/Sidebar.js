@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { ShallowEquals } from 'uptoo-react-utils'
-import { Menu, Icon, Button } from 'antd';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {ShallowEquals} from 'uptoo-react-utils';
+import {Menu, Icon, Button} from 'antd';
 
 const SubMenu = Menu.SubMenu;
 
 export default class Sidebar extends Component {
     state = {
-        collapsed: false,
+        collapsed: true,
     }
 
     toggleCollapsed = () => {
@@ -21,10 +21,9 @@ export default class Sidebar extends Component {
             <div>
                 <Menu
                   defaultSelectedKeys={['1']}
-                  defaultOpenKeys={['sub1']}
                   mode="inline"
                   theme="dark"
-                  style={{ height: 'calc(100%)', marginRight: 0 }}
+                  style={{height: 'calc(100%)', marginRight: 0}}
                   inlineCollapsed={this.state.collapsed}
                 >
                     {

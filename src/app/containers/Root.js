@@ -12,9 +12,9 @@ import { ROUTES, JWT_TOKEN } from './../../config'
 
 /* eslint-disable */
 // Break few eslint rules with no suitable fix
-if (process.env.NODE_ENV !== 'production') {
-    var DevTools = require('./../components/DevTools/').default
-}
+// if (process.env.NODE_ENV !== 'production') {
+//     var DevTools = require('./../components/DevTools/').default
+// }
 /* eslint-enable */
 
 class Root extends Component {

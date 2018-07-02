@@ -15,12 +15,9 @@ if (process.env.NODE_ENV === 'production' || process.env.PLATFORM_ENV !== 'web')
         applyMiddleware(router)
     )(createStore)
 } else {
-    const DevTools = require('./../../app/components/DevTools/').default
-
     createStoreWithMiddleware = compose(
         applyMiddleware(thunk),
-        applyMiddleware(router),
-        DevTools.instrument()
+        applyMiddleware(router)
     )(createStore)
 }
 

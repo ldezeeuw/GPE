@@ -1,0 +1,159 @@
+
+#geosuggest .App {
+  text-align: center;
+}
+#geosuggest .heading {
+  font-size: 2rem;
+  margin: 0;
+}
+/* Geosuggest */
+#geosuggest .geosuggest__input {
+  font-size: 18px;
+  font-size: .75rem;
+  height: 40px;
+  padding: .5em;
+}
+#geosuggest .geosuggest__input:focus {
+  outline: hidden;
+}
+#geosuggest .geosuggest__suggests {
+  position: absolute;
+  left: 0;
+  right: 0;
+  max-height: 25em;
+  padding: 0;
+  margin: 0 auto;
+  margin-top: -1px;
+  background: #fff;
+  border: 1px solid #ddd;
+  /*border: 2px solid #267dc0;*/
+  overflow-x: auto;
+  list-style: none;
+  z-index: 5;
+  -webkit-transition: max-height 0.2s, border 0.2s;
+  transition: max-height 0.2s, border 0.2s;
+}
+
+#geosuggest .geosuggest__item {
+  font-size: 18px;
+  font-size: .75rem;
+  line-height: 2;
+  padding: .5em .65em;
+  list-style-type: none;
+}
+
+#geosuggest .geosuggest__item:hover, .geosuggest__item:focus {
+  background: #f5f5f5;
+}
+
+#geosuggest .geosuggest__suggests--hidden {
+  max-height: 0;
+  overflow: hidden;
+  border-width: 0;
+}
+
+#geosuggest .geosuggest__item--active {
+  background: #267dc0;
+  color: #fff;
+}
+
+/* Map */
+#geosuggest .Map {
+  margin: 20px auto;
+}
+
+/* Current Location */
+#geosuggest .current-place .star {
+  color: gold;
+  font-size: 1.5rem;
+  vertical-align: text-bottom;;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+#geosuggest .star:hover {
+  color: goldenrod;
+}
+
+#geosuggest .place {
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+
+#geosuggest .current-coords {
+  display: block;
+  font-size: small;
+}
+
+#geosuggest .list-group {
+  max-height: 400px;
+  margin: 20px auto;
+  overflow: auto;
+}
+#geosuggest .list-group-item {
+  font-size: .75rem;
+  text-align: center !important; /* figure out overriding style to remove !important */
+  font-weight: bold;
+}
+#geosuggest .list-group-item:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+#geosuggest .list-group-item .star {
+  color: gold;
+  font-size: .75rem;
+  margin-right: 10px;
+}
+#geosuggest .createdAt {
+  display: block;
+  font-size: small;
+  font-weight: normal;
+}
+
+#geosuggest .placemark {
+    margin-top: -1px;
+    display: block;
+    outline: none;
+}
+
+#geosuggest .placemark:first-child {
+    margin-top: 0px;
+}
+
+#geosuggest .placemark.active {
+    background-color: #001529;
+    color: white;
+}
+
+#geosuggest .placemark:hover {
+    background-color: #001529;
+    color: white;
+}
+/*rgba(255, 255, 255, 0.65)*/
+#geosuggest .placemark:hover, #geosuggest .toggleActive, #geosuggest .current-place:hover {
+    cursor: pointer;
+}
+
+#geosuggest .modalSubmitBtn {
+    width: 100%;
+    background-color: #001529;
+}
+
+#geosuggest .current-place:hover > h3 {
+    background-color: #001529;
+    color: white;
+    width: 100%;
+}
+
+#geosuggest .current-place {
+    height: 52px;
+    line-height: 52px;
+}
+
+#geosuggest .placemark {
+    width: 100%;
+    background-color: transparent;
+    /* border: none; */
+    border: 1px solid rgb(216, 216, 216);
+}

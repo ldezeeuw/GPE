@@ -6,7 +6,8 @@ import {
     Form, Select, InputNumber, Switch, Radio, Layout,
     Slider, Button, Upload, Icon, Rate,
 } from 'antd';
-import {Requester} from 'uptoo-react-utils'
+
+import Map from './../../../components/Geolocation/Map';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -14,46 +15,19 @@ const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
 class Demo extends React.Component {
-    state = {
-        latitude: 0,
-        longitude: 0,
-        fixtures: []
-    }
-
-    componentDidMount() {
-        navigator.geolocation.getCurrentPosition(rslt => {
-            this.setState({latitude: rslt.coords.latitude, longitude: rslt.coords.longitude})
-            Requester.get("http://maps.googleapis.com/maps/api/geocode/json?latlng=" + rslt.coords.latitude +"," + rslt.coords.longitude + "&sensor=true").then(rslt => {
-                const fixtures = [];
-                if (typeof rslt.error_message !== "undefined")
-                    console.warn(rslt.error_message)
-
-                rslt.results.forEach((item, i) => {
-                    fixtures.push({
-                        label: item.formatted_address,
-                        location: item.geometry.location,
-                        key: item.formatted_address + i
-                    })
-                });
-                
-                this.setState({fixtures});
-            })
-            
-        })
-    }
-
     handleSubmit = (e) => {
         e.preventDefault();
         const search = {};
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                if (typeof values.address !== 'undefined' && values.address) {
-                    search.lat = values.address.location.lat
-                    search.lng = values.address.location.lng
-                }
-                if (values.child > 0) search.childs = values.child;
+                search.lat = this.props.latitude;
+                search.lng = this.props.longitude;
+
+                if (values.price > 0) search.price = values.price;
+                if (values.childs > 0) search.childs = values.childs;
                 if (values.distance > 0) search.distance = values.distance;
+                if (values.duration[1] > 0) search.duration = values.duration;
 
                 this.props.action(search);
             }
@@ -68,7 +42,7 @@ class Demo extends React.Component {
         };
 
         return (
-            <Form style={{ boxShadow: 'rgba(0, 0, 0, 0.10) -2px 4px 6px', marginLeft: 42, backgroundColor: '#fff', borderLeftColor: '1px solid black'}} onSubmit={this.handleSubmit}>
+            <Form style={{overflow: 'hidden', marginTop: -48, boxShadow: 'rgba(0, 0, 0, 0.10) -2px 4px 6px', marginLeft: 42, backgroundColor: '#fff', borderLeftColor: '1px solid black'}} onSubmit={this.handleSubmit}>
                 <Layout.Header style={{marginBottom: 16}}>
                     <span
                       style={{
@@ -80,44 +54,61 @@ class Demo extends React.Component {
                     </span>
                     <span>X</span>
                 </Layout.Header>
-                <FormItem
-                  style={{lineHeight: 3}}
-                  {...formItemLayout}
-                  label="Location(s)"
-                >
-                    {getFieldDecorator('address', {
-                    })(
-                        <Geosuggest
-                          autoComplete="off"
-                          fixtures={this.state.fixtures}
-                          placeholder="Rechercher une adresse"
-                          onSuggestSelect={value => this.props.form.setFieldsValue({ address: value })}
-                          location={new google.maps.LatLng(this.state.latitude, this.state.longitude)}
-                          radius="20"
-                        />
-                    )}
-                </FormItem>
+                <div style={{margin: 32}}>
+                    <FormItem
+                      style={{lineHeight: 3}}
+                    >
+                        <Button style={{marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onClick={this.props.toggleModal}>
+                            {this.props.locationName}
+                        </Button>
+                    </FormItem>
 
-                <FormItem
-                  style={{lineHeight: 3}}
-                  {...formItemLayout}
-                  label="Childs"
-                >
-                    {getFieldDecorator('input-number', {initialValue: 0})(
-                        <InputNumber min={0} max={10} />
-                    )}
-                </FormItem>
-                {/*
-                <FormItem
-                  style={{lineHeight: 3}}
-                  {...formItemLayout}
-                  label="Remuneration €/H"
-                >
-                    {getFieldDecorator('input-number', {initialValue: 0})(
-                        <InputNumber min={0} max={10} />
-                    )}
-                </FormItem>
-                */}
+                    <FormItem
+                      style={{lineHeight: 3}}
+                      label="Childs"
+                    >
+                        {getFieldDecorator('childs', {initialValue: 0})(
+                            <InputNumber min={0} max={10} />
+                        )}
+                    </FormItem>
+                    <FormItem
+                      style={{lineHeight: 3}}
+                      label="Duration"
+                    >
+                        {getFieldDecorator('duration')(
+                            <Slider
+                              range
+                              max={5}
+                              min={0}
+                              step={1}
+                              marks={{
+                                0: '0', 5: '+5'
+                              }}
+                            />
+                        )}
+                    </FormItem>
+                    <FormItem
+                      style={{lineHeight: 3}}
+                      label="Price"
+                    >
+                        {getFieldDecorator('price')(
+                            <Slider
+                              range
+                              max={20}
+                              min={0}
+                              step={1}
+                              marks={{
+                                0: '0', 5: '+5'
+                              }}
+                            />
+                        )}
+                    </FormItem>
+                    filter by price
+                    ajouter les points sur la map
+                </div>
+                <div style={{margin: 32}}>
+                    <Map radius={this.props.form.getFieldValue('distance')} lat={this.props.latitude} lng={this.props.longitude} />
+                </div>
                 <FormItem
                   style={{lineHeight: 3}}
                   {...formItemLayout}
@@ -135,9 +126,7 @@ class Demo extends React.Component {
                     )}
                 </FormItem>
 
-                <FormItem
-                  wrapperCol={{span: 12, offset: 6}}
-                >
+                <FormItem wrapperCol={{span: 12, offset: 6}}>
                     <Button type="primary" htmlType="submit">Submit</Button>
                 </FormItem>
             </Form>
