@@ -15,7 +15,7 @@ export default [
             Home,
             {
                 path: '*',
-                component: () => <Redirect to="/klimbr" />
+                component: () => <Redirect to="/home/wall" />
             }
         ]
     }

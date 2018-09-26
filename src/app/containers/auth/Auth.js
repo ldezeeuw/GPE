@@ -20,29 +20,21 @@ class Auth extends Component {
     // }
 
     render() {
-        // if (this.props.Auth.user) {
+        if (this.props.Auth.user)
             return <Redirect to="/home/wall" />
-        // }
 
-        // return (
-        //     <div/>
-        // )
+        return (
+            <div id="auth">
+                <div className="content">
+                    <div className="text-center">
+                        <h2>NURSERY</h2>
+                    </div>
+                    {renderRoutes(this.props.route.routes)}
+                </div>
+            </div>
+        )
     }
 }
-/*
-    <div id="auth">
-        <div className="content">
-            <div className="text-center">
-                <img
-                  alt="UPTOO logo"
-                  className="logo"
-                  src="https://storage.googleapis.com/uptoo-developer/illustrations_public/logo_uptoo.png"
-                />
-            </div>
-            {renderRoutes(this.props.route.routes)}
-        </div>
-    </div>
-*/
 
 const mapStateToProps = state => ({ ...state })
 

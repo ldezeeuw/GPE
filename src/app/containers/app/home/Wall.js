@@ -155,7 +155,6 @@ export default class wall extends Component {
     }
 
     canCloseLocationModal = () => {
-        console.log(this.state.latitude, this.state.longitude);
         return this.state.latitude !== 0 && this.state.longitude !== 0;
     }
 

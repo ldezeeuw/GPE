@@ -75,7 +75,7 @@ class Demo extends React.Component {
                       style={{lineHeight: 3}}
                       label="Duration"
                     >
-                        {getFieldDecorator('duration')(
+                        {getFieldDecorator('duration', {initialValue: [0, 0]})(
                             <Slider
                               range
                               max={5}
