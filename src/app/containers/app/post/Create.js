@@ -10,7 +10,7 @@ class create extends Component {
     };
 
     createPost = form => {
-        console.log(this.props.Auth.user._id);
+        // console.log(this.props.Auth.user._id);
         Requester.post('/' + 1 + '/post', form);
     };
 
