@@ -39,18 +39,15 @@ export default class Sidebar extends Component {
 
                          */
                     }
-                    <Menu.Item key="1">
+                    <Menu.Item onClick={() => this.props.history.push('/post/new')} key="1">
                         <Icon type="pie-chart" />
-                        <span>Mon profil</span>
+                        <span>Recherche</span>
                     </Menu.Item>
                     <Menu.Item key="2">
                         <Icon type="desktop" />
-                        <span>Mes clients</span>
+                        <span>Ajouter un post</span>
                     </Menu.Item>
-                    <Menu.Item key="3">
-                        <Icon type="inbox" />
-                        <span>Option 3</span>
-                    </Menu.Item>
+                    {/*
                     <SubMenu key="sub1" title={<span><Icon type="mail" /><span>Navigation One</span></span>}>
                         <Menu.Item key="5">Option 5</Menu.Item>
                         <Menu.Item key="6">Option 6</Menu.Item>
@@ -65,6 +62,7 @@ export default class Sidebar extends Component {
                             <Menu.Item key="12">Option 12</Menu.Item>
                         </SubMenu>
                     </SubMenu>
+                */}
                 </Menu>
             </div>
         )
