@@ -64,9 +64,9 @@ class App extends Component {
     }
 
     render() {
-        // if (!this.props.Auth.user) {
-        //     return <Redirect to="/auth/login" />
-        // }
+        if (!this.props.Auth.user) {
+            return <Redirect to="/auth/login" />
+        }
         return (
             <Layout id="app" className={this.props.Template.sidebar.isVisible ? 'collapsed' : ''}>
                 <Layout hasSider>
