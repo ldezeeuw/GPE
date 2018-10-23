@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Auth } from 'uptoo-react-redux'
 import Login from './forms/Login'
-// import Authenticator from './forms/Authenticator'
+// import Authenticator from  './forms/Authenticator'
 
 class Form extends Component {
     static propTypes = {
@@ -18,8 +18,12 @@ class Form extends Component {
     render() {
         return (
             <div>
+                <div className="text-center">
+                    <h2>NURSERY</h2>
+                </div>
                 <div className="auth-form-main">
                     <Login
+                      history={this.props.history}
                       action={this.props.login}
                       loading={this.props.Auth.loading}
                       error={this.props.Auth.error}

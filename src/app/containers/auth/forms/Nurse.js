@@ -5,13 +5,14 @@ const FormItem = Form.Item;
 
 class Nurse extends Component {
     submitForm = () => {
-        console.log('FORM SUBMITTED');
+        const values = this.props.form.getFieldsValue();
+        this.props.onSubmit(values);
     };
 
     render() {
         const {getFieldDecorator} = this.props.form;
         return (
-            <div>
+            <div style={{ width: '420px', height: '400px' }}>
                 <Form onSubmit={this.submitForm}>
                     <Layout.Header style={{marginBottom: 16}}>
                         <span
@@ -62,18 +63,12 @@ class Nurse extends Component {
                                 <Input placeholder="password" />
                             )}
                         </FormItem>
-
-                        FAIRE UNE MAP POUR LA LONGITUDE LATITUDE
-                        <FormItem
-                          style={{lineHeight: 3}}
+                        <Button
+                          style={{marginLeft: 'auto', marginRight: 'auto', position: 'absolute', bottom: '16px', width: '368px',  color: '#40a9ff', borderColor: '#40a9ff'}}
+                          onClick={this.submitForm}
                         >
-                            <Button
-                              style={{marginLeft: 'auto', marginRight: 'auto', display: 'block'}}
-                              onClick={this.submitForm}
-                            >
-                                NEXT
-                            </Button>
-                        </FormItem>
+                            NEXT
+                        </Button>
                     </div>
                 </Form>
             </div>

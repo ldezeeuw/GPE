@@ -30,6 +30,6 @@ export default {
         component: Register
     }, {
         path: '*',
-        // component: () => <Redirect to="/auth/login" />
+        component: () => <Redirect to="/auth/login" />
     }]
 };

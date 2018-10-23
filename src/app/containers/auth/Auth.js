@@ -26,9 +26,6 @@ class Auth extends Component {
         return (
             <div id="auth">
                 <div className="content">
-                    <div className="text-center">
-                        <h2>NURSERY</h2>
-                    </div>
                     {renderRoutes(this.props.route.routes)}
                 </div>
             </div>

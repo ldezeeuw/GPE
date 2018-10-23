@@ -56,7 +56,7 @@ class Login extends PureComponent {
                             )}
                         </Col>
                         <Col>
-                            <a href="not-active-yet">Mot de passe oublié</a>
+                            <div onClick={() => this.props.history.push('register')}>register</div>
                         </Col>
                     </Row>
                     <Button type="primary" htmlType="submit" className="fluid" loading={this.props.loading}>
