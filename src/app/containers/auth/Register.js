@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from 'antd';
-import {Requester, Config} from 'uptoo-react-utils';
+import Requester from './../../Utils/Requester';
+import Config from './../../Utils/Config';
 import ParentForm from './forms/Parent';
 import NurseForm from './forms/Nurse';
 import Geolocation from './../../components/Geolocation/';

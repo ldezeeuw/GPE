@@ -1,6 +1,6 @@
 import ROUTES from './routes';
 
-const domain = 'http://localhost:8080';
+const domain = 'http://localhost:80';
 
 // if (process.env.SANDBOX) {
 //     domain = 'https://api-test.uptoo.fr';

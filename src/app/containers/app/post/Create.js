@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Icon, Row, Col, Card, Avatar, AutoComplete, Layout} from 'antd';
-import {Requester} from 'uptoo-react-utils';
+import Requester from './../../../Utils/Requester';
 import { connect } from 'react-redux'
 import CreateForm from './form/Create';
 
@@ -11,7 +11,7 @@ class create extends Component {
 
     createPost = form => {
         // console.log(this.props.Auth.user._id);
-        Requester.post('/' + 1 + '/post', form);
+        Requester.post('http://localhost/post', form);
     };
 
     render() {

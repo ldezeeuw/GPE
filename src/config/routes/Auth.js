@@ -28,8 +28,10 @@ export default {
     }, {
         path: '/auth/register',
         component: Register
-    }, {
-        path: '*',
-        component: () => <Redirect to="/auth/login" />
-    }]
+    }
+    // , {
+    //     path: '*',
+    //     component: () => <Redirect to="/auth/login" />
+    // }
+    ]
 };
