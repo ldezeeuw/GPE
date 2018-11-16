@@ -7,25 +7,29 @@ import Config from './../../Utils/Config';
 
 class Form extends Component {
     static propTypes = {
-        login: PropTypes.func.isRequired
+        login: PropTypes.func.isRequired,
     };
 
     login = data => {
         delete data.remember;
-        fetch('http://127.0.0.1/login', {
+        fetch('http://localhost:8080/login', {
             method: 'POST',
+            mode: 'cors',
             body: JSON.stringify(data),
+            dataType: 'json',
             headers: {
-                'Access-Control-Request-Method': 'POST',
-                'Content-Type': 'application/json'
-            }
-        }).then(resp => resp.json())
-        .then(data => {
-            console.log('data', data)
-        }, error => {
-            console.log('zer', error)
-        });
-    }
+                // 'Access-Control-Request-Method': 'POST',
+                Accept: '*',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(resp => resp.json() || null)
+            .then(r => {
+                console.log('data', r);
+            }, error => {
+                console.error('zer', error.response || error);
+            });
+    };
 
     render() {
         return (
@@ -35,10 +39,10 @@ class Form extends Component {
                 </div>
                 <div className="auth-form-main">
                     <Login
-                      history={this.props.history}
-                      action={this.login}
-                      loading={this.props.Auth.loading}
-                      error={this.props.Auth.error}
+                        history={this.props.history}
+                        action={this.login}
+                        loading={this.props.Auth.loading}
+                        error={this.props.Auth.error}
                     />
                 </div>
             </div>
@@ -51,7 +55,7 @@ const mapStateToProps = state => ({...state});
 const mapDispatchToProps = dispatch => ({
     login: data => {
         // dispatch(Auth.login(data))
-    }
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
