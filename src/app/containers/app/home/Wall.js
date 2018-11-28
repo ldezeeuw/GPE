@@ -5,7 +5,8 @@ import moment from 'moment';
 import LocationModal from './locationModal';
 import Filter from './Filter';
 import OrderBy from './OrderBy';
-const Data = require('./../../../jsons/Offers.json');
+import Cookies from './../../../Utils/Cookies'
+// const Data = require('./../../../jsons/Offers.json');
 
 
 function distance(lat1, lon1, lat2, lon2, unit) {
@@ -55,14 +56,14 @@ export default class wall extends Component {
         });
     }
 
-    getDistance(location) {
+    getDistance(lat, lng) {
         return (
             this.state.latitude !== 0 ?
                 distance(
                     this.state.latitude,
                     this.state.longitude,
-                    location.lat,
-                    location.lng,
+                    lat,
+                    lng,
                     'K'
                 )
             :
@@ -71,14 +72,26 @@ export default class wall extends Component {
     }
 
     getOffers = () => {
-        this.setState({offers: Data, originalOffers: Data});
+        fetch('http://localhost:7777/posts', {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${Cookies.get('token')}`,
+                Accept: '*',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(resp => resp.json() || null)
+        .then(r => {
+            this.setState({offers: r, originalOffers: r});
+        }, error => {
+            console.error('zer', error.response || error);
+        });
     }
 
     getDuration({start, end}) {
-        var now  = end;
-        var then = start;
-
-        var ms = moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"));
+        var now  = end.date;
+        var then = start.date;
+        var ms = moment(now,"YYYY/MM/DD HH:mm:ss").diff(moment(then,"YYYY/MM/DD HH:mm:ss"));
         var d = moment.duration(ms);
         var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
 
@@ -87,49 +100,36 @@ export default class wall extends Component {
 
     sort = (key, order) => {
         const offers = [...this.state.offers];
-
         offers.sort((a, b) => {
             switch (key) {
                 case 'duration':
-                    return order === 'up' ? this.getDuration(a.time).mili > this.getDuration(b.time).mili : this.getDuration(a.time).mili < this.getDuration(b.time).mili;
+                    return order === 'up' ? this.getDuration(a).mili > this.getDuration(b).mili ? 1 : -1 : this.getDuration(a).mili < this.getDuration(b).mili ? 1 : -1;
 
                 case 'child':
-                    return order === 'up' ? a.childrens.length > b.childrens.length : a.childrens.length < b.childrens.length;
+                    return order === 'up' ? a.children > b.children ? 1 : -1 : a.children < b.children ? 1 : -1;
 
                 case 'distance':
-                    return (
-                        order === 'up' ?
-                            distance(
-                                a.location.lat,
-                                a.location.lng,
-                                this.state.latitude,
-                                this.state.longitude
-                            ) > distance(
-                                b.location.lat,
-                                b.location.lng,
-                                this.state.latitude,
-                                this.state.longitude
-                            )
-                        :
-                            distance(
-                                a.location.lat,
-                                a.location.lng,
-                                this.state.latitude,
-                                this.state.longitude
-                                ) < distance(
-                                    b.location.lat,
-                                    b.location.lng,
-                                    this.state.latitude,
-                                    this.state.longitude
-                                )
-                    );
+                    const distA = distance(
+                        a.latitude,
+                        a.longitude,
+                        this.state.latitude,
+                        this.state.longitude
+                    )
+
+                    const distB = distance(
+                        b.latitude,
+                        b.longitude,
+                        this.state.latitude,
+                        this.state.longitude
+                    )
+
+                    return order === 'up' ? distA > distB ? 1 : -1 : distA < distB ? 1 : -1
 
                     default:
                         return null;
             }
         });
         this.setState({offers});
-        console.log('SORTED OFFERS', offers);
     }
 
     filterOffer = filter => {
@@ -138,18 +138,17 @@ export default class wall extends Component {
 
         if (typeof filter.duration !== 'undefined')
             results = results.filter(item => {
-                const dur = moment.duration(this.getDuration(item.time).mili);
-                console.log(dur.hours(), filter.duration[0], filter.duration[1], dur.hours() > filter.duration[0], dur.hours() < filter.duration[1]);
+                const dur = moment.duration(this.getDuration(item).mili);
                 return filter.duration[1] !== 5 ? dur.hours() >= filter.duration[0] && dur.hours() <= filter.duration[1] : dur.hours() >= filter.duration[0];
             });
         if (typeof filter.distance !== 'undefined')
             results = results.filter(item => {
-                const dis = distance(filter.lat, filter.lng, item.location.lat, item.location.lng, 'K').toFixed(2);
+                const dis = distance(filter.lat, filter.lng, item.latitude, item.longitude, 'K').toFixed(2);
                 return dis < filter.distance;
             });
         if (typeof filter.childs !== 'undefined')
             results = results.filter(item => {
-                return item.childrens.length <= filter.childs;
+                return item.children <= filter.childs;
             });
         this.setState({offers: results});
     }
@@ -178,7 +177,7 @@ export default class wall extends Component {
                 </Layout.Header>
                 <OrderBy action={this.sort} />
                 <Row>
-                    <Col span={6} push={18}>
+                    <Col span={10} push={14}>
                         <Filter
                           action={this.filterOffer}
                           fixtures={this.state.fixtures}
@@ -188,35 +187,34 @@ export default class wall extends Component {
                           toggleModal={() => this.setState({modalVisible: !this.state.modalVisible})}
                         />
                     </Col>
-                    <Col span={18} pull={6} style={{paddingLeft: 32}}>
+                    <Col span={14} pull={10} style={{paddingLeft: 32}}>
                         <Row gutter={32}>
-                            {this.state.offers.map(item => (
-                                    <Col key={item._id} span={6}>
-                                        <Card
-                                          style={{width: 300, marginLeft: 'auto', marginRight: 'auto'}}
-                                          cover={<img alt="example" style={{maxHeight: 150}} src={item.pictures[0]} />}
-                                          actions={[
-                                            <div>{`${this.getDistance(item.location).toFixed(2)}/km`}</div>,
-                                            <div>{this.getDuration(item.time).second}</div>,
-                                            <div>{`${item.remuneration}€/h`}</div>
-                                          ]}
-                                        >
-                                            <Card.Meta
-                                              avatar={<Avatar src={item._author.picture} />}
-                                              title={item.title}
-                                              description={
-                                                <div>
-                                                    <div style={{height: '100px'}}>
-                                                      {item.description}
-                                                    </div>
-                                                    <span><Icon type="team" />{item.childrens.length}</span>
+                            {this.state.offers.map((item, key) => (
+                                <div key={item.id} style={{display: 'inline-block'}}>
+                                    <Card
+                                      style={{width: 300, minWidth: 300, marginLeft: 'auto', marginRight: 'auto'}}
+                                      cover={<img alt="example" style={{maxHeight: 150}} src="https://source.unsplash.com/user/erondu" />}
+                                      actions={[
+                                        <div>{`${this.getDistance(item.latitude, item.longitude).toFixed(2)}/km`}</div>,
+                                        <div>{this.getDuration(item).second}</div>,
+                                        <div>{`${item.hourly_rate}€/h`}</div>
+                                      ]}
+                                    >
+                                        <Card.Meta
+                                          // avatar={<Avatar src={item._author.picture} />}
+                                          title={item.title}
+                                          description={
+                                            <div>
+                                                <div style={{height: '100px'}}>
+                                                  {item.description}
                                                 </div>
-                                              }
-                                            />
-                                        </Card>
-                                    </Col>
-                                )
-                            )}
+                                                <span><Icon type="team" />{item.children}</span>
+                                            </div>
+                                          }
+                                        />
+                                    </Card>
+                                </div>
+                            ))}
                         </Row>
                     </Col>
                 </Row>

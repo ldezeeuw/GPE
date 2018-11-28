@@ -46,7 +46,7 @@ class Parent extends Component {
                           style={{lineHeight: 3}}
                         >
                             {getFieldDecorator('email')(
-                                <Input type="email" placeholder="First name" />
+                                <Input type="email" placeholder="E-mail" />
                             )}
                         </FormItem>
                         <FormItem

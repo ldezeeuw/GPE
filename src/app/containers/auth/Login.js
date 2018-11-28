@@ -4,28 +4,34 @@ import {connect} from 'react-redux';
 import Login from './forms/Login';
 import Requester from './../../Utils/Requester';
 import Config from './../../Utils/Config';
+import Cookies from './../../Utils/Cookies';
 
 class Form extends Component {
     static propTypes = {
-        login: PropTypes.func.isRequired
+        login: PropTypes.func.isRequired,
     };
 
     login = data => {
         delete data.remember;
-        fetch('http://127.0.0.1/login', {
+        fetch('http://localhost:7777/login', {
             method: 'POST',
             body: JSON.stringify(data),
+            dataType: 'json',
             headers: {
-                'Access-Control-Request-Method': 'POST',
-                'Content-Type': 'application/json'
-            }
-        }).then(resp => resp.json())
-        .then(data => {
-            console.log('data', data)
+                Accept: '*',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(resp => resp.json() || null)
+        .then(r => {
+            console.log('data', r.token);
+            Cookies.set('token', r.token);
+            if (typeof r.token !== 'undefined')
+                this.props.history.push('/home/wall')
         }, error => {
-            console.log('zer', error)
+            console.error('zer', error.response || error);
         });
-    }
+    };
 
     render() {
         return (
@@ -35,10 +41,10 @@ class Form extends Component {
                 </div>
                 <div className="auth-form-main">
                     <Login
-                      history={this.props.history}
-                      action={this.login}
-                      loading={this.props.Auth.loading}
-                      error={this.props.Auth.error}
+                        history={this.props.history}
+                        action={this.login}
+                        loading={this.props.Auth.loading}
+                        error={this.props.Auth.error}
                     />
                 </div>
             </div>
@@ -51,7 +57,7 @@ const mapStateToProps = state => ({...state});
 const mapDispatchToProps = dispatch => ({
     login: data => {
         // dispatch(Auth.login(data))
-    }
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
