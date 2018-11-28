@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import Login from './forms/Login';
 import Requester from './../../Utils/Requester';
 import Config from './../../Utils/Config';
+import Cookies from './../../Utils/Cookies';
 
 class Form extends Component {
     static propTypes = {
@@ -12,23 +13,24 @@ class Form extends Component {
 
     login = data => {
         delete data.remember;
-        fetch('http://localhost:8080/login', {
+        fetch('http://localhost:7777/login', {
             method: 'POST',
-            mode: 'cors',
             body: JSON.stringify(data),
             dataType: 'json',
             headers: {
-                // 'Access-Control-Request-Method': 'POST',
                 Accept: '*',
                 'Content-Type': 'application/json',
             },
         })
-            .then(resp => resp.json() || null)
-            .then(r => {
-                console.log('data', r);
-            }, error => {
-                console.error('zer', error.response || error);
-            });
+        .then(resp => resp.json() || null)
+        .then(r => {
+            console.log('data', r.token);
+            Cookies.set('token', r.token);
+            if (typeof r.token !== 'undefined')
+                this.props.history.push('/home/wall')
+        }, error => {
+            console.error('zer', error.response || error);
+        });
     };
 
     render() {

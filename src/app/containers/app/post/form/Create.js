@@ -63,15 +63,15 @@ class Login extends PureComponent {
         this.props.form.validateFields((err, values) => {
             const post = {
                 ...values,
-                date_start: moment(this.state.startValue)
+                start: moment(this.state.startValue)
                     .toISOString(),
-                date_end: moment(this.state.endValue)
+                end: moment(this.state.endValue)
                     .toISOString(),
                 latitude: this.state.latitude,
                 longitude: this.state.longitude,
             };
-            if (!post.date_start ||
-                !post.date_end ||
+            if (!post.start ||
+                !post.end ||
                 !post.latitude ||
                 !post.longitude) {
                 this.setState({error: 'tout les champs ne sonts pas remplis'});

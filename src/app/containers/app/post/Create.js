@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Icon, Row, Col, Card, Avatar, AutoComplete, Layout} from 'antd';
 import Requester from './../../../Utils/Requester';
+import Cookies from './../../../Utils/Cookies';
 import {connect} from 'react-redux';
 import CreateForm from './form/Create';
 
@@ -10,22 +11,21 @@ class create extends Component {
     createPost = form => {
         // console.log(this.props.Auth.user._id);
         // Requester.post('http://localhost:8080/post', form);
-        fetch('http://localhost:8080/post', {
+        fetch('http://localhost:7777/post', {
             method: 'POST',
-            // mode: 'no-cors',
             body: JSON.stringify(form),
             dataType: 'json',
             headers: {
-                // 'Access-Control-Request-Method': 'POST',
+                Authorization: `Bearer ${Cookies.get('token')}`,
                 Accept: '*/*',
                 'Content-Type': 'application/json',
             },
         })
-            .then(resp => {
-                console.log(resp);
-            })
+            .then(resp => resp.json())
             .then(r => {
                 console.log('data', r);
+                if (typeof r.id !== 'undefined')
+                    this.props.history.push('/home/wall')
             }, error => {
                 console.error('zer', error.response || error);
             });

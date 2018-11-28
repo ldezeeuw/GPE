@@ -11,7 +11,13 @@ export default class OrderBy extends Component {
     };
 
     sort = key => {
-        this.setState({[key]: this.state[key] === 'down' ? 'up' : 'down', active: key});
+        this.setState({
+            child: 'down',
+            duration: 'down',
+            distance: 'down',
+            [key]: this.state[key] === 'down' ? 'up' : 'down',
+            active: key
+        });
         this.props.action(key, this.state[key] === 'down' ? 'up' : 'down');
     };
 

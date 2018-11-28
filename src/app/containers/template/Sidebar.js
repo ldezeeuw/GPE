@@ -39,11 +39,11 @@ export default class Sidebar extends Component {
 
                          */
                     }
-                    <Menu.Item onClick={() => this.props.history.push('/post/new')} key="1">
+                    <Menu.Item onClick={() => this.props.history.push('/home/wall')} key="1">
                         <Icon type="pie-chart" />
                         <span>Recherche</span>
                     </Menu.Item>
-                    <Menu.Item key="2">
+                    <Menu.Item onClick={() => this.props.history.push('/home/post/new')} key="2">
                         <Icon type="desktop" />
                         <span>Ajouter un post</span>
                     </Menu.Item>

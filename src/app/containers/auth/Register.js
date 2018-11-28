@@ -28,7 +28,7 @@ export default class Register extends Component {
             };
             console.log('DATA', data);
             // Requester.post('http://localhost:8080/user', data);
-            fetch('http://localhost:8080/user', {
+            fetch('http://localhost:7777/user', {
                 method: 'POST',
                 // mode: 'no-cors',
                 body: JSON.stringify(data),
@@ -37,16 +37,16 @@ export default class Register extends Component {
                     // 'Access-Control-Request-Method': 'POST',
                     Accept: '*/*',
                     'Content-Type': 'application/json',
-                },
+                }
             })
-                .then(resp => {
-                    console.log(resp);
-                })
-                .then(r => {
-                    console.log('data', r);
-                }, error => {
-                    console.error('zer', error.response || error);
-                });
+            .then(resp => {
+                return resp.json()
+            })
+            .then(r => {
+                console.log('data', r);
+            }, error => {
+                console.error('zer', error.response || error);
+            });
         }
     };
 
@@ -62,7 +62,7 @@ export default class Register extends Component {
             };
             console.log('DATA', data);
             // Requester.post('http://localhost:8080/user', data);
-            fetch('http://localhost:8080/nurse', {
+            fetch('http://localhost:7777/nurse', {
                 method: 'POST',
                 // mode: 'no-cors',
                 body: JSON.stringify(data),
