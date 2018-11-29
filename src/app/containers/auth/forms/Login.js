@@ -1,13 +1,13 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
+import React, { PureComponent }                                 from 'react'
+import PropTypes                                                from 'prop-types'
 import { Form, Icon, Input, Button, Alert, Row, Col, Checkbox } from 'antd'
 
 class Login extends PureComponent {
     static propTypes = {
-        action: PropTypes.func.isRequired,
+        action:  PropTypes.func.isRequired,
         loading: PropTypes.bool.isRequired,
-        form: PropTypes.object.isRequired,
-        error: PropTypes.string
+        form:    PropTypes.object.isRequired,
+        error:   PropTypes.string
     };
 
     static defaultProps = {
@@ -28,37 +28,44 @@ class Login extends PureComponent {
         const { getFieldDecorator } = form
 
         return (
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmit} className={'ant-form-login'}>
                 <div style={{ minHeight: 40, marginBottom: 10 }}>
-                    {error && <Alert message={error} type="error" showIcon />}
+                    {error && <Alert message={error} type="error" showIcon/>}
                 </div>
 
-                <Form.Item>
+                <Form.Item className="input-email">
                     {getFieldDecorator('email')(
-                        <Input size="large" prefix={<Icon type="user" />} placeholder="Votre adresse email" />
+                        <Input size="large" prefix={<Icon type="user"/>} placeholder="Votre adresse email"/>
                     )}
                 </Form.Item>
 
-                <Form.Item>
+                <Form.Item className="input-pwd">
                     {getFieldDecorator('password')(
-                        <Input size="large" prefix={<Icon type="lock" />} type="password" placeholder="Mot de passe" />
+                        <Input size="large" prefix={<Icon type="lock"/>} type="password" placeholder="Mot de passe"/>
                     )}
                 </Form.Item>
 
                 <Form.Item>
-                    <Row type="flex" justify="space-between" style={{ marginTop: 30 }}>
+                    <Row type="flex" justify="start">
                         <Col>
                             {getFieldDecorator('remember', {
                                 valuePropName: 'checked',
-                                initialValue: true
+                                initialValue:  false
                             })(
-                                <Checkbox>Se souvenir</Checkbox>
+                                <Checkbox>Se souvenir de mes identifiants</Checkbox>
                             )}
                         </Col>
-                        <Col>
-                            <div onClick={() => this.props.history.push('register')}>register</div>
-                        </Col>
                     </Row>
+                    {/*<Row type="flex" justify="space-between" style={{ marginTop: 30 }}>
+                        <Col>
+                            <div onClick={() => this.props.history.push('register')}>Inscription</div>
+                        </Col>
+                    </Row>*/}
+
+
+                </Form.Item>
+
+                <Form.Item style={{ marginTop: 30 }}>
                     <Button type="primary" htmlType="submit" className="fluid" loading={this.props.loading}>
                         Connexion
                     </Button>

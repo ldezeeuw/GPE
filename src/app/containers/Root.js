@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {message, notification} from 'antd';
-import {Provider, connect} from 'react-redux';
-import {renderRoutes} from 'react-router-config';
-import {ConnectedRouter} from 'react-router-redux';
-
-import {Template} from 'uptoo-react-redux';
+import React, { Component }      from 'react';
+import PropTypes                 from 'prop-types';
+import { message, notification } from 'antd';
+import { Provider, connect }     from 'react-redux';
+import { renderRoutes }          from 'react-router-config';
+import { ConnectedRouter }       from 'react-router-redux';
+import { Redirect }              from 'react-router-dom'
+import { Template }              from 'uptoo-react-redux';
 // import {Window} from 'uptoo-react-elements'
-import Cookies from './../Utils/Cookies';
-import ShallowEquals from './../Utils/ShallowEquals';
-import {history} from './../../config/store';
-import {ROUTES, JWT_TOKEN} from './../../config';
+import Cookies                   from './../Utils/Cookies';
+import ShallowEquals             from './../Utils/ShallowEquals';
+import { history }               from './../../config/store';
+import { ROUTES, JWT_TOKEN }     from './../../config';
 
 /* eslint-disable */
 // Break few eslint rules with no suitable fix
@@ -22,22 +22,22 @@ import {ROUTES, JWT_TOKEN} from './../../config';
 class Root extends Component {
     static propTypes = {
         store: PropTypes.object.isRequired,
-        init: PropTypes.func.isRequired
+        init:  PropTypes.func.isRequired
     };
 
     constructor(props) {
         super(props);
 
         message.config({
-            top: 11,
+            top:      11,
             duration: 2
         });
 
         notification.config({
             placement: 'bottomLeft',
-            bottom: 0,
-            left: 16,
-            duration: 0
+            bottom:    0,
+            left:      16,
+            duration:  0
         });
     }
 
@@ -47,7 +47,7 @@ class Root extends Component {
         const token = Cookies.get(JWT_TOKEN);
 
         if (token) {
-            this.props.restore(token);
+            // this.props.restore(token);
         }
     }
 
@@ -58,7 +58,7 @@ class Root extends Component {
     render() {
         return (
             <Provider store={this.props.store}>
-                <div style={{height: '100%'}}>
+                <div style={{ height: '100%' }}>
                     <ConnectedRouter history={history}>
                         {renderRoutes(ROUTES)}
                     </ConnectedRouter>

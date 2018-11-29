@@ -11,7 +11,7 @@ const domain = 'http://localhost:80';
 // domain = 'https://c498b40d.eu.ngrok.io'
 
 const API_DOMAIN = domain;
-const JWT_TOKEN = 'adminToken';
+const JWT_TOKEN = 'token';
 const AUTHORIZED_USERS = ['developer', 'admin'];
 
 export {

@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "antd": "^3.4.3",
+    "classnames": "^2.2.6",
     "history": "^4.7.2",
     "moment": "^2.22.1",
     "prop-types": "^15.6.1",
@@ -32,6 +33,7 @@
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",
     "react-rte": "^0.16.1",
+    "react-swal": "^3.0.0",
     "react-transition-group": "^2.4.0",
     "redux": "^4.0.0",
     "redux-devtools": "^3.4.1",
@@ -39,6 +41,7 @@
     "redux-devtools-log-monitor": "^1.4.0",
     "redux-thunk": "^2.2.0",
     "socket.io-client": "^2.1.1",
+    "sweetalert2": "^7.29.2",
     "uptoo-react-elements": "git+ssh://git@github.com/uptoo/react-elements.git"
   },
   "oldDependencies": {

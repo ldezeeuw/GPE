@@ -1,27 +1,27 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import { renderRoutes } from 'react-router-config'
+import React, { Component }       from 'react'
+import PropTypes                  from 'prop-types'
+import { connect }                from 'react-redux'
+import { Redirect, Route }        from 'react-router-dom'
+import { renderRoutes }           from 'react-router-config'
 import { ShallowEquals, Cookies } from 'uptoo-react-utils'
 import { Auth, Template, Socket } from 'uptoo-react-redux'
 // import { Socket as SocketConnect } from 'uptoo-react-web-elements'
-import { Layout } from 'antd'
-import Navbar from './template/Navbar'
-import Sidebar from './template/Sidebar'
-import { API_DOMAIN, JWT_TOKEN } from './../../config/index'
+import { Layout }                 from 'antd'
+import Navbar                     from './template/Navbar'
+import Sidebar                    from './template/Sidebar'
+import { API_DOMAIN, JWT_TOKEN }  from './../../config/index'
 
 class App extends Component {
     static propTypes = {
-        route: PropTypes.object.isRequired,
-        Template: PropTypes.object.isRequired,
-        Auth: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired,
-        resetErrors: PropTypes.func.isRequired,
+        route:             PropTypes.object.isRequired,
+        Template:          PropTypes.object.isRequired,
+        Auth:              PropTypes.object.isRequired,
+        location:          PropTypes.object.isRequired,
+        resetErrors:       PropTypes.func.isRequired,
         sidebarSetVisible: PropTypes.func.isRequired,
-        history: PropTypes.object.isRequired,
-        logout: PropTypes.func.isRequired,
-        toggle: PropTypes.func.isRequired
+        history:           PropTypes.object.isRequired,
+        logout:            PropTypes.func.isRequired,
+        toggle:            PropTypes.func.isRequired
     };
 
     componentDidMount() {
@@ -67,15 +67,17 @@ class App extends Component {
         // if (!this.props.Auth.user) {
         //     return <Redirect to="/auth/login" />
         // }
+        if (!Cookies.get(JWT_TOKEN) || Cookies.get(JWT_TOKEN) === null)
+            return <Redirect to='/auth/login'/>
         return (
             <Layout id="app" className={this.props.Template.sidebar.isVisible ? 'collapsed' : ''}>
                 <Layout hasSider>
                     <Sidebar
-                      user={this.props.Auth.user}
-                      routes={this.props.Template.routes.sidebar}
-                      location={this.props.location}
-                      history={this.props.history}
-                      collapsed={!this.props.Template.sidebar.isVisible}
+                        user={this.props.Auth.user}
+                        routes={this.props.Template.routes.sidebar}
+                        location={this.props.location}
+                        history={this.props.history}
+                        collapsed={!this.props.Template.sidebar.isVisible}
                     />
                     {renderRoutes(this.props.route.routes)}
                 </Layout>
@@ -84,19 +86,19 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = state => ({...state});
+const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch => ({
     sidebarSetVisible: isVisible => {
         dispatch(Template.sidebarSetVisible(isVisible));
     },
-    resetErrors: () => {
+    resetErrors:       () => {
         dispatch(Template.resetErrors());
     },
-    logout: () => {
+    logout:            () => {
         dispatch(Auth.logout());
     },
-    toggle: () => {
+    toggle:            () => {
         dispatch(Template.sidebarToggle());
     },
     onMessage(e, data) {
