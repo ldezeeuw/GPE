@@ -1,14 +1,21 @@
-import React, { Component }                                   from 'react';
-import { Icon, Row, Col, Card, Avatar, AutoComplete, Layout } from 'antd';
-import { Requester }                                          from 'uptoo-react-utils';
-import moment                                                 from 'moment';
-import LocationModal                                          from './locationModal';
-import Filter                                                 from './Filter';
-import OrderBy                                                from './OrderBy';
-import Cookies                                                from './../../../Utils/Cookies'
-
-// const Data = require('./../../../jsons/Offers.json');
-
+import React, { Component }     from 'react';
+import {
+    Icon,
+    Row,
+    Col,
+    Card,
+    Avatar,
+    AutoComplete,
+    Layout,
+    Modal,
+    Button
+}                               from 'antd';
+import { Requester }            from 'uptoo-react-utils';
+import moment                   from 'moment';
+import LocationModal            from './locationModal';
+import Filter                   from './Filter';
+import OrderBy                  from './OrderBy';
+import Cookies                  from './../../../Utils/Cookies'
 
 function distance(lat1, lon1, lat2, lon2, unit) {
     var radlat1 = Math.PI * lat1 / 180
@@ -32,12 +39,13 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 
 export default class wall extends Component {
     state = {
-        offers:       [],
-        fixtures:     [],
-        locationName: 'Ivry-sur-Seine, France',
-        latitude:     48.813896,
-        longitude:    2.3924480000000585,
-        modalVisible: true
+        offers:         [],
+        fixtures:       [],
+        locationName:   'Ivry-sur-Seine, France',
+        latitude:       48.813896,
+        longitude:      2.3924480000000585,
+        modalVisible:   true,
+        isVisible:      false
     }
 
     componentDidMount() {
@@ -76,6 +84,34 @@ export default class wall extends Component {
                 distance(this.state.latitude, this.state.longitude, lat, lng, 'K') : 0
         );
     }
+
+    updatePost = post => {
+        let token = Cookies.get('token')
+        let user = token.split('.')[1]
+        user = user.replace('-', '+').replace('_', '/')
+        let winAtob = window && window.atob ? window.atob : require('base-64').decode
+        user = JSON.parse(decodeURIComponent(escape(winAtob(user))))
+
+        console.log(user.sub.id)
+        
+        fetch('http://localhost:7777/posts', {
+            method:  'PUT',
+            body: JSON.stringify({...post, nurse_id: user.sub.id}),
+            headers: {
+                Authorization:  `Bearer ${Cookies.get('token')}`,
+                Accept:         '*',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(resp => resp.json() || null)
+            .then(r => {
+                console.log('R', r)
+                // r = r ? r : []
+                // this.setState({ offers: r, originalOffers: r });
+            }, error => {
+                // console.error('zer', error.response || error);
+            });
+    };
 
     getOffers = () => {
         fetch('http://localhost:7777/posts', {
@@ -164,9 +200,34 @@ export default class wall extends Component {
         return this.state.latitude !== 0 && this.state.longitude !== 0;
     }
 
+    selectPost = item => {
+        this.setState({
+            selectedPost: item,
+            isVisible: true
+        })
+    };
+
     render() {
         return (
             <div style={{ width: '100%', overflowY: 'scroll' }}>
+                <Modal
+                  style={{top: '10px'}}
+                  width="40%"
+                  visible={this.state.isVisible}
+                  onOk={() => console.log('VALIDATE')}
+                  footer={[
+                    <Button className="modalSubmitBtn" key="submit" type="primary" onClick={() => this.updatePost(this.state.selectedPost)}>
+                      OUI
+                    </Button>,
+                    <Button className="modalSubmitBtn" key="refuse" type="primary" onClick={() => this.setState({isVisible: false})}>
+                      NON
+                    </Button>,
+                  ]}
+                >
+                    Voulez vous postuler a cette annonce?<br/><br/>
+                    <div>{this.state.selectedPost ? this.state.selectedPost.title : null}</div>
+                    <div>{this.state.selectedPost ? this.state.selectedPost.description : null}</div>
+                </Modal>
                 {/*<LocationModal
                     toggleModal={() => this.setState({ modalVisible: !this.state.modalVisible })}
                     visible={this.state.modalVisible}
@@ -204,6 +265,7 @@ export default class wall extends Component {
                             {this.state.offers.map((item, key) => (
                                 <div key={item.id} style={{ display: 'inline-block' }}>
                                     <Card
+                                        onClick={() => this.selectPost(item)}
                                         style={{ width: 300, minWidth: 300, marginLeft: 'auto', marginRight: 'auto' }}
                                         cover={<img alt="example" style={{ maxHeight: 150 }}
                                                     src="https://source.unsplash.com/user/erondu"/>}

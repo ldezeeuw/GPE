@@ -67,8 +67,8 @@ class App extends Component {
         // if (!this.props.Auth.user) {
         //     return <Redirect to="/auth/login" />
         // }
-        if (!Cookies.get(JWT_TOKEN) || Cookies.get(JWT_TOKEN) === null)
-            return <Redirect to='/auth/login'/>
+        // if (!Cookies.get('token') || Cookies.get('token') === null)
+            // return <Redirect to='/auth/login'/>
         return (
             <Layout id="app" className={this.props.Template.sidebar.isVisible ? 'collapsed' : ''}>
                 <Layout hasSider>
